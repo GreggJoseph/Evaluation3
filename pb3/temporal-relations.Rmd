@@ -1,0 +1,84 @@
+---
+title: "Temporal Relationship Checker"
+author: "Gregg Fenton"
+date: "5/18/2022"
+output: word_document
+---
+Problem 3: Checker markdown file or the C routine developed to assess temporal relations.
+
+```{r setup, include=FALSE}
+rm(list = ls())
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+library(tidyverse)
+```
+
+Read in the data and look at the head of the information
+
+```{r}
+setwd("~/Downloads/jobs/ERT-jobs")
+data <- read.table(header=TRUE, fill=TRUE, "AU930_ROAM.TXT")
+
+head(data)
+```
+
+```{r}
+#sort from least recent to most recent
+d1 <- data[order(as.Date(data$yyyy.MM.dd, format="%Y.%m.%d"), data$HH.mm.ss),]
+head(d1)
+```
+```{r}
+#replace values in dataframe columns where chr stings exist( "---") and should be a numeric?
+d1$foF1 <- ifelse(d1$foF1 == "---", 0, d1$foF1)
+d1$hmF1 <- ifelse(d1$hmF1 == "---", 0, d1$hmF1)
+```
+
+```{r}
+runningMedianFilter <- function(x, order=5){runmed(x, order)} # running Median
+
+medianFilter2 <- function(x, n=5){
+        if(n %% 2 == 0) {
+                0.5*( x[n/2] + x[n/2+1] )
+        } else {
+                x[(n+1)/2]
+        } 
+}
+
+medianFilter2a <- function(x, n=5){
+        if(n %% 2 == 0) {
+                0.5*( x[n/2-1] + x[n/2] )
+        } else {
+                x[(n-1)/2]
+        } 
+}
+```
+
+
+```{r}
+
+plot(d1$foF2, d1$hmF2,
+     type="p",lty=c(1),
+     xlab="foF2",
+     ylab="hmF2",
+     main="Plot")
+
+foF2clean <- runningMedianFilter(d1$foF2, order=15)
+hmF2clean <- runningMedianFilter(d1$hmF2, order=15)
+
+plot(foF2clean, hmF2clean,
+     type="p",lty=c(1),
+     xlab="Cleaner foF2",
+     ylab="Cleaner hmF2",
+     main="Plot")
+
+medianFilter2(d1$foF2, n=length(d1$foF2))
+medianFilter2(d1$hmF2, n=length(d1$hmF2))
+
+medianFilter2a(d1$foF2, n=length(d1$foF2))
+medianFilter2a(d1$hmF2, n=length(d1$hmF2))
+```
+

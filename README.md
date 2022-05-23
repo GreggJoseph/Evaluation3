@@ -1,29 +1,12 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Sample problems I attempted for your review.  I was able to get problems 2 through 4 completed. Problem 1
+leaves me a little stumped since I was not able to the the shared object to properly link and I also
+did not know what the API was for the iri2016 code base.
 
-### How do I get set up? ###
+Each problem directory has a README.txt with explainations.
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Thank you for your consideration,
+  Gregg

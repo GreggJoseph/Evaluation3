@@ -1,0 +1,66 @@
+---
+title: "interpolation"
+author: "G. Fenton"
+date: "5/20/2022"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+rm(list = ls())
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+I use to work with spatial datasets, which means x and y coordinates with a z observation, I will give you some clues in this way.
+
+First, I prepare a dataset for interpolation and use the rgl display
+
+```{r}
+library(rgl)
+library(akima)
+library(dplyr)
+library(tidyr)
+
+data(akima)
+data.akima <- as.data.frame(akima)
+
+# data visualisation
+rgl.spheres(akima$x, akima$z, akima$y, 0.5, color="red")
+rgl.bbox()
+
+# Dataset for interpolation
+seq_x <- seq(min(akima$x) - 1, max(akima$x) + 1, length.out = 20)
+seq_y <- seq(min(akima$y) - 1, max(akima$y) + 1, length.out = 20)
+data.pred <- dplyr::full_join(data.frame(x = seq_x, by = 1),
+                              data.frame(y = seq_y, by = 1)) %>% dplyr::select(-by)
+```
+
+Plot using akima interpolation function:
+
+```{r}
+# bivariate linear interpolation
+# interp:
+akima.li <- interp(akima$x, akima$y, akima$z, 
+                   xo=seq_x,
+                   yo=seq_y)
+
+# interp surface:
+rgl.surface(akima.li$x,akima.li$y,akima.li$z,color="green",alpha=c(0.5))
+rgl.spheres(akima$x, akima$z , akima$y,0.5,color="red")
+rgl.bbox()
+```
+
+Plot using a raster approach
+
+```{r}
+library(raster)
+
+r.pred <- raster(akima.li$z, xmn = min(seq_x), xmx = max(seq_x),
+                 ymn = min(seq_y), ymx = max(seq_y))
+plot(r.pred)
+
+## Further bilinear interpolations
+## Double raster resolution
+r.pred.2 <- disaggregate(r.pred, fact = 10, method = 'bilinear')
+plot(r.pred.2)
+```
+
