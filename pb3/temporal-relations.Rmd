@@ -20,7 +20,8 @@ library(tidyverse)
 Read in the data and look at the head of the information
 
 ```{r}
-setwd("~/Downloads/jobs/ERT-jobs")
+setwd("~/Downloads/jobs/ERT-jobs/evaluation/pb3")
+#setwd("C:\\Users\\gfenton\\Desktop\\evaluation\\pb3")
 data <- read.table(header=TRUE, fill=TRUE, "AU930_ROAM.TXT")
 
 head(data)

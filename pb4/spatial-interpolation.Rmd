@@ -1,5 +1,5 @@
 ---
-title: "spatial Interpolation"
+title: "Spatial Interpolation"
 author: "G. Fenton"
 date: "5/20/2022"
 output: word_document
@@ -58,10 +58,14 @@ grid_plot <- ggplot() +
 grid_plot
 
 ```
-Now we have set up our points and a grid to interpolate onto, we are ready to do an interpolation. The method I am using is the Inverse Distance Weighting (IDW).  This method is reasonable and fairly simple to use as the IDW method does not require a special setup to model spatial relationships.  I use this method frequently when mapping dozens of pressure gauge locations onto a topological mapping of terrain.  I am routinely doing this to process dozens of time based pressure reconds consisting of hundreds of thousands of time-value data pairs.  R is a great tool to have to work with a lot of large datasets.
+
+Now we have set up our points and a grid to interpolate onto, we are ready to do an interpolation. The method I am using is the Inverse Distance Weighting (IDW).  This method is reasonable and fairly simple to use as the IDW method does not require a special setup to model spatial relationships.  I use this method frequently when mapping dozens of pressure gauge locations onto a topological mapping of terrain.  I am routinely doing this to process dozens of time based pressure records consisting of hundreds of thousands of time-value data pairs.  R is a great tool to have to work with a lot of large datasets.
 
 Create the object window which is defined by the specified longitude and latitude
 limits. This window is the item that we will use to interpolate the spatial.data onto.  Once object window is defined, the next step includes creation of point pattern object (ppp) within the specified object window.  Marks are added as attribute value to each point of the spatial.data$value.
+
+Show the constructed grid plot with data points again for reference against the interpolated plot, which follows.
+
 
 ```{r}
 # IDW Interpolation
