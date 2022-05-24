@@ -1,38 +1,32 @@
 #include <stdio.h>
+#include <stdbool.h>
 
-//extern float  iri_web_(int *, int *, float *, float *, int*, int *, int *, int *,
-//                       float *, float *, int *, float *, float *, float *, float *, float *);
 
-extern float  iri_sub_(int *, int *, float *, float *, int*, int *, int *, int *,
-                       float *, float *, int *, float *, float *, float *, float *, float *);
+extern void IRI_SUB_(int **, int *, float *, float *, int*, int *, float *, float *,
+                       float *, float *, float *, float *);
 
 int main(void) {
 
     printf("Before running Fortran subroutine:\n");
 
     
-    int jmag,jf,iy,mmdd,iut,hour,ivar;
-    float xlat,xlon,hxx,htec_max,vbeg,vend,vstp,outf,oar;
+    int    *jf[50], jmag, iyyyy, mmdd, iut, hour, ivar;
+    float  alati,along,dhour,heibeg,heiend,heistp,vstp,outf,oarr;
+    //bool
     
     jmag=1;
-    jf=8;
-    xlat=37.8; xlon=75.4;
-    iy=2021; mmdd=0303; iut=1; hour=11;
-    hxx=2; //km
-    htec_max=20000;
-    ivar=1;
-    vbeg=0; vend=12; vstp=2;
+    alati=37.8; along=75.4;
+    iyyyy=2021; mmdd=0303; dhour=11;
+    heibeg=2; //km
+    heiend=200; //km
+    heistp=0.5; //km
     
+
+    IRI_SUB_(jf,&jmag,&alati,&along,&iyyyy,&mmdd,&dhour,&heibeg,&heiend,&heistp,&outf,&oarr);
     
-    //iri_web_(&jmag,&jf,&xlat,&xlon,&iy,&mmdd,&iut,&hour,
-    //         &hxx,&htec_max,&ivar,&vbeg,&vend,&vstp,&outf,&oar);
-
-    iri_sub_(&jmag,&jf,&xlat,&xlon,&iy,&mmdd,&iut,&hour,
-             &hxx,&htec_max,&ivar,&vbeg,&vend,&vstp,&outf,&oar);
-
     printf("After running Fortran subroutine:\n");
     printf("outf=%f\n", outf);
-    printf("oar=%f\n", oar);
+    printf("oar=%f\n", oarr);
 
 
 //printf("\nBefore running Fortran function:\n");
