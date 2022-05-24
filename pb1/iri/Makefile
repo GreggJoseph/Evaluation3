@@ -7,8 +7,8 @@
 #########################################################################
 
 FC = gfortran    
-FFLAGS = -std=legacy -fpic
-LFLAGS = -shared
+FFLAGS = -std=legacy -fPIC -m64
+LFLAGS = -shared -m64
 OBJECTS = iritest.o irisub.o irifun.o iritec.o iridreg.o igrf.o cira.o iriflip.o
 
 ECHO   = echo
@@ -17,7 +17,7 @@ ECHO   = echo
 	$(FC) $(FFLAGS) -c $< 
 
 iri.so: $(OBJECTS)
-	$(FC) $(LFLAGS) -o iri.so $(OBJECTS) 
+	$(FC) $(LFLAGS) $(OBJECTS) -o iri.so 
 
 #-- clean up the compile directory and binaries
 clean :

@@ -17,9 +17,10 @@ Print                  = @echo
 Copy                   = cp
 CCompiler              = gcc-11
 CppCompiler            = gcc-11
-COptions               =  
+COptions               = -m64 
 Linker                 = gcc-11
-LinkOptions            = -L/Users/gfenton/Downloads/jobs/ERT-Jobs/evaluation/pb1/iri
+#LinkOptions            = -L/Users/gfenton/Downloads/jobs/ERT-Jobs/evaluation/pb1/iri
+LinkOptions            = -m64
 MakeDepend             = makedepend
 MakeDir                = mkdir -p
 Delete                 = rm -fr
@@ -41,7 +42,8 @@ Space                  = $(Empty) $(Empty)
 
 ###########################################################################
 #
-Libs = -lm
+#Libs = -lm -liri.so
+Libs = iri/iri.so
 #
 ###########################################################################
 #
@@ -69,7 +71,7 @@ Objs = main.o
 $(target) : $(Objs)
 	rm -f $(target)
 	$(Print) $@
-	$(Linker) $(LinkOptions) -o $(target) $(Objs) -liri.so
+	$(Linker) $(LinkOptions) -o $(target) $(Objs) $(Libs)
 
 #
 ###########################################################################

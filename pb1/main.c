@@ -2,7 +2,7 @@
 #include <stdbool.h>
 
 
-extern void IRI_SUB_(int **, int *, float *, float *, int*, int *, float *, float *,
+extern void iri_sub_(int **, int *, float *, float *, int*, int *, float *, float *,
                        float *, float *, float *, float *);
 
 int main(void) {
@@ -22,7 +22,7 @@ int main(void) {
     heistp=0.5; //km
     
 
-    IRI_SUB_(jf,&jmag,&alati,&along,&iyyyy,&mmdd,&dhour,&heibeg,&heiend,&heistp,&outf,&oarr);
+    iri_sub_(jf,&jmag,&alati,&along,&iyyyy,&mmdd,&dhour,&heibeg,&heiend,&heistp,&outf,&oarr);
     
     printf("After running Fortran subroutine:\n");
     printf("outf=%f\n", outf);
