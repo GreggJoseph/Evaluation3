@@ -2,27 +2,31 @@
 #include <stdbool.h>
 
 
-extern void iri_sub_(int **, int *, float *, float *, int*, int *, float *, float *,
-                       float *, float *, float *, float *);
+extern void iri_sub_(bool [], int *, float *, float *, int*, int *, float *, float *,
+                       float *, float *, float [][20], float []);
 
 int main(void) {
 
     printf("Before running Fortran subroutine:\n");
 
     
-    int    *jf[50], jmag, iyyyy, mmdd, iut, hour, ivar;
-    float  alati,along,dhour,heibeg,heiend,heistp,vstp,outf,oarr;
-    //bool
+    int    jmag, iyyyy, mmdd, iut, hour, ivar;
+    float  alati,along,dhour;
+    float  heibeg,heiend,heistp,vstp;
+    
+    // Rows and columns between C and Fortran are switched.
+    float  oarr[100], outf[1000][20];
+    bool   jf[50];
     
     jmag=1;
     alati=37.8; along=75.4;
-    iyyyy=2021; mmdd=0303; dhour=11;
+    iyyyy=2021; mmdd=0303; dhour=11.+25.;
     heibeg=2; //km
     heiend=200; //km
     heistp=0.5; //km
     
 
-    iri_sub_(jf,&jmag,&alati,&along,&iyyyy,&mmdd,&dhour,&heibeg,&heiend,&heistp,&outf,&oarr);
+    iri_sub_(jf,&jmag,&alati,&along,&iyyyy,&mmdd,&dhour,&heibeg,&heiend,&heistp,outf,oarr);
     
     printf("After running Fortran subroutine:\n");
     printf("outf=%f\n", outf);
