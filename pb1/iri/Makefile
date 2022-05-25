@@ -7,8 +7,8 @@
 #########################################################################
 
 FC = gfortran    
-FFLAGS = -std=legacy -fPIC -m64
-LFLAGS = -shared -m64
+FFLAGS = -std=legacy -fPIC 
+LFLAGS = -shared 
 OBJECTS = iritest.o irisub.o irifun.o iritec.o iridreg.o igrf.o cira.o iriflip.o
 
 ECHO   = echo

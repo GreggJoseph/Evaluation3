@@ -935,6 +935,12 @@ C
         print *, IYEAR, LATI, LONGI, MLAT, MLONG, JMAG
         CALL GEODIP(IYEAR,LATI,LONGI,MLAT,MLONG,JMAG)
         print *, "  After GEODIP, line 937"
+        print *, "  RYEAR = ", RYEAR
+        print *, "  iyear = ", iyear
+        print *, "  iyearo = ", iyearo
+        print *, "  daynr = ", daynr
+        print *, "  idaynro = ", idaynro
+
 
         if((iyear.ne.iyearo).or.(daynr.ne.idaynro)) CALL FELDCOF(RYEAR)
         print *, "  After FELDCOF, line 940"

@@ -29,8 +29,8 @@ int main(void) {
     iri_sub_(jf, &jmag, &lat, &lon, &iyyyy, &mmdd, &dhour, &hbeg, &hend, &hstp, outf, oarr);
     printf("After running Fortran subroutine...\n");
     
-    printf("outf=%f\n", outf);
-    printf("oar=%f\n", oarr);
+    printf("outf=%f\n", outf[1][1]);
+    printf("oar=%f\n", oarr[1]);
 
     return 0;
 }

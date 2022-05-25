@@ -641,12 +641,16 @@ C-- DETERMINE IGRF-YEARS FOR INPUT-YEAR
         DTE1 = DTEMOD(L)   
         FIL1 = FILMOD(L)   
         DTE2 = DTEMOD(L+1) 
-        FIL2 = FILMOD(L+1) 
+        FIL2 = FILMOD(L+1)
+        print *, "FELDCOF(), line 645, before GETSHC()"
 C-- GET IGRF COEFFICIENTS FOR THE BOUNDARY YEARS
-        CALL GETSHC (IU, FIL1, NMAX1, ERAD, GH1, IER)  
-            IF (IER .NE. 0) STOP                           
-        CALL GETSHC (IU, FIL2, NMAX2, ERAD, GH2, IER)  
-            IF (IER .NE. 0) STOP
+        CALL GETSHC (IU, FIL1, NMAX1, ERAD, GH1, IER)
+        print *, "FELDCOF() after GETSHC(), line 648"
+        print *, "FIL1= ", FIL1,", IER= ", IER
+        print *, "Before (IF (IER .NE. 0) STOP) in FELDCOF()"
+        IF (IER .NE. 0) STOP
+        CALL GETSHC (IU, FIL2, NMAX2, ERAD, GH2, IER)
+        IF (IER .NE. 0) STOP
 C-- DETERMINE IGRF COEFFICIENTS FOR YEAR
         IF (L .LE. NUMYE-1) THEN                        
           CALL INTERSHC (YEAR, DTE1, NMAX1, GH1, DTE2, 
@@ -656,6 +660,7 @@ C-- DETERMINE IGRF COEFFICIENTS FOR YEAR
      1          GH2, NMAX, GHA)                                    
         ENDIF 
 C-- DETERMINE MAGNETIC DIPOL MOMENT AND COEFFIECIENTS G
+        print *, "FELDCOF(), line 660"
         F0=0.D0
         DO 1234 J=1,3
            F = GHA(J) * 1.D-5
@@ -716,7 +721,7 @@ C ===============================================================
         COMMON/iounit/konsol,mess        
         do 1 j=1,196  
 1          GH(j)=0.0
-
+        print *, "GETSHC(), line 722, FSPEC: ", FSPEC
 C ---------------------------------------------------------------               
 C       Open coefficient file. Read past first header record.        
 C       Read degree and order of model and Earth's radius.           
@@ -725,11 +730,14 @@ C ---------------------------------------------------------------
  667    FORMAT(A13)
 c-web-for webversion
 c 667    FORMAT('/var/www/omniweb/cgi/vitmo/IRI/',A13)
-        OPEN (IU, FILE=FOUT, STATUS='OLD', IOSTAT=IER, ERR=999)     
+        print *, "GTHSHC(), line 731, before OPEN()"
+        OPEN (IU, FILE=FOUT, STATUS='OLD', IOSTAT=IER, ERR=999)
+        print *, "GTHSHC(), line 733, after OPEN()"
         READ (IU, *, IOSTAT=IER, ERR=999)                            
         READ (IU, *, IOSTAT=IER, ERR=999) NMAX, ERAD, XMYEAR 
         nm=nmax*(nmax+2)                
-        READ (IU, *, IOSTAT=IER, ERR=999) (GH(i),i=1,nm) 
+        READ (IU, *, IOSTAT=IER, ERR=999) (GH(i),i=1,nm)
+        print *, "GETSHC(), NMAX, ERAD, XMYEAR:",NMAX,ERAD,XMYEAR
         goto 888 
                
 999     if (mess) write(konsol,100) FOUT
