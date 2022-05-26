@@ -83,7 +83,7 @@ ppp_z <- ppp(spatial.data$long, spatial.data$lat,
              marks=spatial.data$value, window=obs_window)
 
 # create the IDW data from the created point-pattern object based on the provided spatioal data
-idw_data <- idw(ppp_z, power=1, at="pixels", se=FALSE)
+idw_data <- idw(ppp_z, power=1.0, at="pixels", se=FALSE)
 
 # plot the IDW data using the base R plotting package. Have an issue getting the
 # axis labels to appear.
