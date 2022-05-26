@@ -456,7 +456,6 @@ c     &   /BLO11/B2TOP,TC3,itopn,alg10,hcor1,tcor2
         save
                 
         mess=jf(34)
-        print *, "Hello from IRI_SUB(), at line 459."
         
 c set switches for NRLMSIS00  
         ISW=0
@@ -684,7 +683,6 @@ c
 c
 c F1 peak altitude ..................................................
 c
-      print *, "Hello from IRI_SUB(), at line 687."
 
       HMF1IN=(.not.jf(14))
        IF(HMF1IN) then
@@ -884,8 +882,6 @@ c  also evenly divisible by 400 are leap years. The year 2000 is a 100
 c  and 400 year exception and therefore it is a normal leap year. 
 c  The next 100 year exception will be in the year 2100!
 c
-        print *, "Hello from IRI_SUB(), at line 887."
-        print *, "     Date = ", iyyyy
         iyear=iyyyy
         if(iyear.lt.100) iyear=iyear+1900
         if(iyear.lt.30) iyear=iyear+2000
@@ -911,7 +907,6 @@ C calculate center height for CGM computation
 C
 
         height_center=(HEIBEG+HEIEND)/2.
-        print *, "     height_center = ", height_center
         
 
 C
@@ -921,8 +916,6 @@ C AND MODIFIED DIP (MODIP), ALL IN DEGREES
 C
 
         if(along.lt.0.) along = along + 360. ! -180/180 to 0-360
-        print *, "     line = 924, along=", along
-        print *, "     JMAG = ", JMAG
 
         IF(JMAG.GT.0) THEN
            MLAT=ALATI
@@ -931,26 +924,17 @@ C
            LATI=ALATI
            LONGI=ALONG
         ENDIF
-        print *, "  Before GEODIP, line 934"
         print *, IYEAR, LATI, LONGI, MLAT, MLONG, JMAG
         CALL GEODIP(IYEAR,LATI,LONGI,MLAT,MLONG,JMAG)
-        print *, "  After GEODIP, line 937"
-        print *, "  RYEAR = ", RYEAR
-        print *, "  iyear = ", iyear
-        print *, "  iyearo = ", iyearo
-        print *, "  daynr = ", daynr
-        print *, "  idaynro = ", idaynro
 
 
         if((iyear.ne.iyearo).or.(daynr.ne.idaynro)) CALL FELDCOF(RYEAR)
-        print *, "  After FELDCOF, line 940"
         if(jf(18)) then
         	call igrf_dip(lati,longi,ryear,300.0,dec,dip,magbr,modip)
         else
         	CALL FIELDG(LATI,LONGI,300.0,XMA,YMA,ZMA,BET,DIP,DEC,MODIP)
         	MAGBR=ATAN(0.5*TAN(DIP*UMR))/UMR
         endif
-        print *, "     line = 942, ", LATI
 c
 c calculate L-value, dip lati, and B_abs needed for invdip computation
 c calculating invdip at 600 km

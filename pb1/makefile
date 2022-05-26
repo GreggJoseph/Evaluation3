@@ -49,7 +49,7 @@ Libs = iri/iri.so
 #
 Hdrs = 
 #
-Srcs = main.c
+Srcs = main.c 
 #
 Objs = main.o 
 #

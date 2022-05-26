@@ -7,24 +7,23 @@ extern void iri_sub_(bool [], int *, float *, float *, int*, int *, float *,
 
 int main(void) {
 
-    printf("\nBefore var declarations:\n");
-
     int    i, j, nalt=21;
     int    jmag, iyyyy, mmdd, iut;
     int    ymdhms[6];
     float  lat, lon;
     float  dhour;
     float  hbeg, hend, hstp;
+    
     float  alt[nalt];
-    //char   *datadir = "iri";
+    
     // Rows and columns between C and Fortran are switched.
     float  oarr[100], outf[1000][20];
     
     bool   jf[50] = { true }; //only sets the 1st element to true
     jmag = 1;
     lat = 37.8; lon = 75.4;
-    iyyyy = 2021; mmdd = 321; dhour = 11.0+25.0;
-    //iyyyy = 2021; mmdd = 322; dhour = 23.0+25.0;
+    iyyyy = 2021; mmdd = 321; dhour = 11.0;
+    //iyyyy = 2021; mmdd = 322; dhour = 23.0;
     hbeg = 80.0; //km
     hend = 600.0; //km
     hstp = 26.0; //km
@@ -35,10 +34,9 @@ int main(void) {
         alt[i] = alt[i-1] + hstp;
     }
     
-    for( i=0 ; i<50 ; i++ ){
-        //printf("%s", jf[i] ? "true\n" : "false\n");
-        fputs(jf[i] ? "true\n" : "false\n", stdout);
-    }
+    //for( i=0 ; i<50 ; i++ ){
+    //    fputs(jf[i] ? "true\n" : "false\n", stdout);
+    //}
     printf("\n");
     for( i=0 ; i<50 ; i++ ){
         jf[i] = true;
@@ -52,7 +50,7 @@ int main(void) {
         if(i>27 && i<31) jf[i] = false;
         if(i>32 && i<36) jf[i] = false;
         
-        fputs(jf[i] ? "true\n" : "false\n", stdout);
+        //fputs(jf[i] ? "true\n" : "false\n", stdout);
     }
     
     printf("Before running Fortran subroutine...\n");
@@ -67,7 +65,7 @@ int main(void) {
     
     for( i=1; i<=nalt; i++) {
         for( j=1 ; j<=11 ; j++ ) {
-            printf("%10.3f, %15.7f : ", alt[i], outf[i][j]);
+            printf("%10.3f, %15.7f : \n", alt[i], outf[i][j]);
         }
         printf("\n");
     }
