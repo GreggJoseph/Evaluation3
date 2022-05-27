@@ -456,7 +456,13 @@ c     &   /BLO11/B2TOP,TC3,itopn,alg10,hcor1,tcor2
         save
                 
         mess=jf(34)
-        
+        print *, "----------------------------------------"
+        print *, "In IRI_SUB(), passed parameters:"
+        print *, JF,JMAG,ALATI,ALONG,IYYYY,MMDD,DHOUR
+        print *, HEIBEG,HEIEND,HEISTP
+        print *, "----------------------------------------"
+c        jf = .true.
+c        print *, jf
 c set switches for NRLMSIS00  
         ISW=0
         do 6492 KI=1,25
@@ -924,7 +930,6 @@ C
            LATI=ALATI
            LONGI=ALONG
         ENDIF
-        print *, IYEAR, LATI, LONGI, MLAT, MLONG, JMAG
         CALL GEODIP(IYEAR,LATI,LONGI,MLAT,MLONG,JMAG)
 
 
@@ -1198,7 +1203,6 @@ c
         ELSE
           HME=110.0
         ENDIF
-        print *, "     foe = ", FOE
 c
 c F2 peak critical frequency foF2, density NmF2, and height hmF2
 c
@@ -2337,6 +2341,7 @@ c     &	f107365,pf107,cov-f10781,cov-f107365,cov-pf107
 c10201	format(I5,11F6.1)
 
        icalls=icalls+1
+
 
       RETURN
       END
