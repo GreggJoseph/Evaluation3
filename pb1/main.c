@@ -13,14 +13,30 @@ int main(void) {
     float  lat, lon;
     float  dhour;
     float  hbeg, hend, hstp;
+    char   datadir='.';
     
     float  alt[nalt];
     
     // Rows and columns between C and Fortran are switched.
     float  oarr[100], outf[1000][20];
+    bool   jf[50] = { true, 1 }; //only sets the 1st element to true
     
-    bool   jf[50] = { true }; //only sets the 1st element to true
-    jmag = 1;
+   
+    printf("\n");
+    for( i=1 ; i<=50 ; i++ ){
+        jf[i] = true;
+        if(i>3 && i<7)   jf[i] = false;
+        if(i==8)         jf[i] = true;
+        if(i>21 && i<24) jf[i] = false;
+        if(i==26)        jf[i] = true; // jf(26) == jf(8) == .true. for foF2
+        if(i>27 && i<31) jf[i] = false;
+        if(i>32 && i<36) jf[i] = false;
+        
+        fputs(jf[i] ? "true\n" : "false\n", stdout);
+    }
+    
+    
+    jmag = 0;
     lat = 37.8; lon = 75.4;
     iyyyy = 2021; mmdd = 321; dhour = 11.0;
     //iyyyy = 2021; mmdd = 322; dhour = 23.0;
@@ -34,33 +50,15 @@ int main(void) {
         alt[i] = alt[i-1] + hstp;
     }
     
-    //for( i=0 ; i<50 ; i++ ){
-    //    fputs(jf[i] ? "true\n" : "false\n", stdout);
-    //}
-    printf("\n");
-    for( i=0 ; i<50 ; i++ ){
-        jf[i] = true;
-    }
     
-    for( i=0 ; i<50 ; i++ ){
-        if(i>3 && i<7)   jf[i] = false;
-        if(i==8)         jf[i] = true;
-        if(i>21 && i<24) jf[i] = false;
-        if(i==26)        jf[i] = true; // jf(26) == jf(8) == .true. for foF2
-        if(i>27 && i<31) jf[i] = false;
-        if(i>32 && i<36) jf[i] = false;
-        
-        //fputs(jf[i] ? "true\n" : "false\n", stdout);
-    }
-    
-    printf("Before running Fortran subroutine...\n");
+    printf("Before Fortran subroutine...\n");
     iri_sub_(jf, &jmag, &lat, &lon, &iyyyy, &mmdd, &dhour, &hbeg, &hend, &hstp, outf, oarr);
-    printf("After running Fortran subroutine...\n");
+    printf("After Fortran subroutine...\n");
 
     printf("NmF2= %10.3f [m^-3], hmF2= %5.1f [km]\n",  oarr[1], oarr[2]);
-    printf("Ap= %10.3f, %d, B0= %5.1f\n",  oarr[41], (int)oarr[51], oarr[10]);
+    printf("Ap= %10.3f, %3d, B0= %5.1f\n",  oarr[41], (int)oarr[51], oarr[10]);
 
-    
+    /*
     printf("Altitude (km)    Ne (m^-3)\n");
     
     for( i=1; i<=nalt; i++) {
@@ -73,6 +71,7 @@ int main(void) {
     for( i=1; i<=100; i++) {
         printf("%10.3f\n", oarr[i]);
     }
+     */
     
     return 0;
 }
