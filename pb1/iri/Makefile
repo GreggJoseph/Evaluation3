@@ -1,11 +1,16 @@
 
 #########################################################################
 #
-# Makefile for iri code
+# Makefile for iri code and test driver C function (main.c)
 # Created by:  G. Fenton 5/22/2022
+#
+#  > make
+#  > make test
+#  > ./test.exe - to run driver function
 #
 #########################################################################
 
+CC = gcc-11
 FC = gfortran    
 FFLAGS = -std=legacy -fPIC 
 LFLAGS = -shared 
@@ -19,6 +24,7 @@ ECHO   = echo
 iri.so: $(OBJECTS)
 	$(FC) $(LFLAGS) $(OBJECTS) -o iri.so 
 
+
 #-- clean up the compile directory and binaries
 clean :
 	@$(ECHO)
@@ -27,6 +33,6 @@ clean :
 	/bin/rm -f core *.o *.so *.exe
 	@$(ECHO)
 
-test.exe: irirtam.o irirtam-test.o
-	$(FC) irirtam.o irirtam-test.o -o test.exe
+test: main.o iri.so
+	$(CC) -o test.exe main.c iri.so
 
