@@ -27,3 +27,30 @@ NOTE: May need to properly set the DYLD_LIBRARY_PATH env variable. Use an absolu
     > export DYLD_LIBRARY_PATH=/Users/gfenton/Downloads/jobs/ERT-Jobs/evaluation/pb1/iri
 
 
+I compiled the iri/irisub.for routine with:
+    > gfortran -flto -fc-prototypes-external -c irisub.for
+    
+    This provided me an IRI_SUB() prototype to use ???
+
+#include <stddef.h>
+#ifdef __cplusplus
+#include <complex>
+#define __GFORTRAN_FLOAT_COMPLEX std::complex<float>
+#define __GFORTRAN_DOUBLE_COMPLEX std::complex<double>
+#define __GFORTRAN_LONG_DOUBLE_COMPLEX std::complex<long double>
+extern "C" {
+#else
+#define __GFORTRAN_FLOAT_COMPLEX float _Complex
+#define __GFORTRAN_DOUBLE_COMPLEX double _Complex
+#define __GFORTRAN_LONG_DOUBLE_COMPLEX long double _Complex
+#endif
+
+/* Prototypes for external procedures generated from irisub.for
+   by GNU Fortran (Homebrew GCC 11.3.0_1) 11.3.0.
+
+   Use of this interface is discouraged, consider using the
+   BIND(C) feature of standard Fortran instead.  */
+
+void iri_sub_ (int_fast32_t *jf, int *jmag, float *alati, float *along, int *iyyyy, int *mmdd, float *dhour, float *heibeg, float *heiend, float *heistp, float *outf, float *oarr);
+
+Changed the int_fast32_t to int

@@ -458,7 +458,8 @@ c     &   /BLO11/B2TOP,TC3,itopn,alg10,hcor1,tcor2
         mess=jf(34)
         print *, "----------------------------------------"
         print *, "In IRI_SUB(), passed parameters:"
-        print *, JF,JMAG,ALATI,ALONG,IYYYY,MMDD,DHOUR
+        print *, JF
+        print *, JMAG,ALATI,ALONG,IYYYY,MMDD,DHOUR
         print *, HEIBEG,HEIEND,HEISTP
         print *, "----------------------------------------"
 c        jf = .true.
@@ -2341,6 +2342,7 @@ c     &	f107365,pf107,cov-f10781,cov-f107365,cov-pf107
 c10201	format(I5,11F6.1)
 
        icalls=icalls+1
+       print *, oarr
 
 
       RETURN
