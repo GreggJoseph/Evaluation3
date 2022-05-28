@@ -30,7 +30,7 @@ NOTE: May need to properly set the DYLD_LIBRARY_PATH env variable. Use an absolu
 I compiled the iri/irisub.for routine with:
     > gfortran -flto -fc-prototypes-external -c irisub.for
     
-    This provided me an IRI_SUB() prototype to use ???
+    This provided me an IRI_SUB() prototype to possibly use ???
 
 #include <stddef.h>
 #ifdef __cplusplus
@@ -51,6 +51,14 @@ extern "C" {
    Use of this interface is discouraged, consider using the
    BIND(C) feature of standard Fortran instead.  */
 
-void iri_sub_ (int_fast32_t *jf, int *jmag, float *alati, float *along, int *iyyyy, int *mmdd, float *dhour, float *heibeg, float *heiend, float *heistp, float *outf, float *oarr);
 
-Changed the int_fast32_t to int
+void iri_sub_ (int_fast32_t *jf, int *jmag, float *alati, float *along, int *iyyyy, int *mmdd, 
+           float *dhour, float *heibeg, float *heiend, float *heistp, float *outf, float *oarr);
+
+Changed the int_fast32_t to int, so...
+
+I removed all the extraneous #include directives.
+extern void iri_sub_ (int *, int *, float *, float *, int *, int *, float *, float *,
+               float *, float *, float [][20], float *);
+
+

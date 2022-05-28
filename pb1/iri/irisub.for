@@ -2342,7 +2342,6 @@ c     &	f107365,pf107,cov-f10781,cov-f107365,cov-pf107
 c10201	format(I5,11F6.1)
 
        icalls=icalls+1
-       print *, oarr
 
 
       RETURN

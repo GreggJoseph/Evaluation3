@@ -27,9 +27,7 @@ int main(void) {
     int    jmag, iyyyy, mmdd, iut;
     float  lat, lon;
     float  dhour;
-    float  hbeg, hend, hstp;
-    char   datadir='.';
-    
+    float  hbeg, hend, hstp;    
     float  alt[nalt];
     
     // Rows and columns between C and Fortran are switched, meaning
@@ -74,10 +72,10 @@ int main(void) {
     printf("\nBefore Fortran subroutine...\n");
     iri_sub_(jf,    &jmag, &lat,  &lon, &iyyyy, &mmdd, &dhour,
              &hbeg, &hend, &hstp, outf, oarr);
-    printf("After Fortran subroutine...\n");
+    printf("After Fortran subroutine...\n\n");
 
-    printf("NmF2= %10.3f [m^-3], hmF2= %5.1f [km]\n",  oarr[0], oarr[1]);
-    printf("Ap= %10.3f, %3d, B0= %5.1f\n",  oarr[40], (int)oarr[50], oarr[9]);
+    printf("EDP Peak=%10.3f [m^-3] at Height=%5.1f [km]\n",  oarr[5-1], oarr[6-1]);
+    printf("Lat= %10.3f, Lon= %5.1f\n",  oarr[28-1], oarr[32-1] );
 
     /*
     printf("Altitude (km)    Ne (m^-3)\n");

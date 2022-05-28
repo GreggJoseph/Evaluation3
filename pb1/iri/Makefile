@@ -35,4 +35,5 @@ clean :
 
 test: main.o iri.so
 	$(CC) -o test.exe main.c iri.so
+	./test.exe
 
