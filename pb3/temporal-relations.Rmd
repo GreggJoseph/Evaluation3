@@ -36,6 +36,9 @@ head(d1)
 #replace values in dataframe columns where chr stings exist( "---") and should be a numeric?
 d1$foF1 <- ifelse(d1$foF1 == "---", 0, d1$foF1)
 d1$hmF1 <- ifelse(d1$hmF1 == "---", 0, d1$hmF1)
+
+# check the data entry change
+head(d1)
 ```
 
 ```{r}
