@@ -7,16 +7,20 @@ output: word_document
 
 Problem 4: Sampled point data interpolated onto a 2D structured grid
 
-Clean the data space 
+Clean the data space
+
 ```{r setup, include=FALSE}
 rm(list = ls())
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Load the required libraries in R for processing the data.  The interpolation routine (IDW) and the point-pattern-processor routines are already pretty standard routines in the base R library space.
+Load the required libraries in R for processing the data. The interpolation routine (IDW) and the point-pattern-processor routines are already pretty standard routines in the base R library space.
 
 ```{r}
 library(ggplot2)
+
+sessionInfo()
+
 ```
 
 Look at the provided data that will be interpolated onto a suggested grid prescribed below. Create the spatial.data dataframe from the provided longitude, latitude, value data.
@@ -30,10 +34,7 @@ value = c(1.494,1.934,2.148,9.155,2.221,8.1,2.039,1.916,3.729,7.137)
 spatial.data <- data.frame(long, lat, value)
 ```
 
-Set up a grid template for interpolation.  The suggested boundaries are a minimum of
-121.0 and a maximum of 131.0 in longitude and a minimum of 10.0 and a maximum of
-16.0 in latitude.  Setup the bounding box based on the specifications.  Plot the 
-suggested grid with the observed data values.
+Set up a grid template for interpolation. The suggested boundaries are a minimum of 121.0 and a maximum of 131.0 in longitude and a minimum of 10.0 and a maximum of 16.0 in latitude. Setup the bounding box based on the specifications. Plot the suggested grid with the observed data values.
 
 ```{r}
 bbox <- c(
@@ -59,13 +60,11 @@ grid_plot
 
 ```
 
-Now we have set up our points and a grid to interpolate onto, we are ready to do an interpolation. The method I am using is the Inverse Distance Weighting (IDW).  This method is reasonable and fairly simple to use as the IDW method does not require a special setup to model spatial relationships.  I use this method frequently when mapping dozens of pressure gauge locations onto a topological mapping of terrain.  I am routinely doing this to process dozens of time based pressure records consisting of hundreds of thousands of time-value data pairs.  R is a great tool to have to work with a lot of large datasets.
+Now we have set up our points and a grid to interpolate onto, we are ready to do an interpolation. The method I am using is the Inverse Distance Weighting (IDW). This method is reasonable and fairly simple to use as the IDW method does not require a special setup to model spatial relationships. I use this method frequently when mapping dozens of pressure gauge locations onto a topological mapping of terrain. I am routinely doing this to process dozens of time based pressure records consisting of hundreds of thousands of time-value data pairs. R is a great tool to have to work with a lot of large datasets.
 
-Create the object window which is defined by the specified longitude and latitude
-limits. This window is the item that we will use to interpolate the spatial.data onto.  Once object window is defined, the next step includes creation of point pattern object (ppp) within the specified object window.  Marks are added as attribute value to each point of the spatial.data$value.
+Create the object window which is defined by the specified longitude and latitude limits. This window is the item that we will use to interpolate the spatial.data onto. Once object window is defined, the next step includes creation of point pattern object (ppp) within the specified object window. Marks are added as attribute value to each point of the spatial.data\$value.
 
 Show the constructed grid plot with data points again for reference against the interpolated plot, which follows.
-
 
 ```{r}
 # IDW Interpolation
@@ -94,7 +93,7 @@ plot(idw_data,
      main="Interpolated values based on IDW method \n (Power = 1.0)" ) 
 ```
 
-Plot the same IDW data using ggplot to get a similar interpolated result with all the axis labels and plot title.  
+Plot the same IDW data using ggplot to get a similar interpolated result with all the axis labels and plot title.
 
 ```{r}
 idw.output = as.data.frame(idw_data)
@@ -113,4 +112,3 @@ plot + layer1 +
   theme_bw()
 
 ```
-
