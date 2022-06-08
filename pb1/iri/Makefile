@@ -30,7 +30,7 @@ clean :
 	@$(ECHO)
 	@$(ECHO) "Cleaning Up Object code "
 	@$(ECHO) "------------------------"
-	/bin/rm -f core *.o *.so *.exe
+	/bin/rm -f core *.o *.so *.exe edpData.dat *.png
 	@$(ECHO)
 
 test: main.o iri.so

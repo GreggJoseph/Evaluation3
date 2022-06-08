@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
+#include <stdlib.h>
 
 
 // iri_sub Function Prototype declaration
@@ -26,6 +27,7 @@ extern void readapf107_ ();
 float wp(float);
 
 #define PI 3.1415926535897932
+FILE *out;
 
 int main(void) {
 
@@ -97,11 +99,19 @@ int main(void) {
 
 
 
+    
+    if((out = fopen("edpData.dat", "w")) == NULL) {
+         printf("\n\n\nUnable to open the file <%s>.\n", "edpData.dat");
+         printf("Program Stopped... \n\n");
+         exit(0);
+       }
+
     // electron density (frequency MHz), ion temp (K)
     printf("\n   Alt (km),  Plasma Freq. (MHz),  ION Temp (K)\n");
-
     for( i=0; i<nalt; i++) {
         printf("%10.3f, %15.7f, %15.7f\n", alt[i], wp(outf[i][1-1])/(2.0*PI), outf[i][3-1]);
+        fprintf(out,"%10.3f, %15.7f, %15.7f\n",
+                alt[i], wp(outf[i][1-1])/(2.0*PI), outf[i][3-1]);
     }
     
     /*
@@ -119,6 +129,8 @@ int main(void) {
     }
      */
 
+    fclose(out);
+    system("gnuplot -p grafs.gp");
     
     return 0;
 }
