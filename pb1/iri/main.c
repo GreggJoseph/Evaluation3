@@ -134,6 +134,7 @@ int main(void) {
 
     system("gnuplot -p grafs0.gp");
     system("gnuplot -p grafs1.gp");
+    system("gnuplot -p plots.gp");
     
     return 0;
 }
