@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 // iri_sub Function Prototype declaration
@@ -37,6 +38,7 @@ int main(void) {
     float  dhour;
     float  hbeg, hend, hstp;    
     float  alt[nalt];
+    char   fname[40], tmp[20], tmp2[20];
     
     // Rows and columns between C and Fortran are switched, meaning
     // major order for double arrays is swapped between the C & FORTRAN
@@ -62,8 +64,6 @@ int main(void) {
     
     jmag = 0;
     lat = 37.8; lon = 75.4;
-    iyyyy = 2021; mmdd = 303; dhour = 11.0;
-    //iyyyy = 2021; mmdd = 304; dhour = 23.0;
     hbeg = 80.0; //km
     hend = 600.0; //km
     hstp = 26.0; //km
@@ -74,46 +74,49 @@ int main(void) {
         alt[i] = alt[i-1] + hstp;
     }
     
+    /*
     printf("\n");
     for( i=0 ; i<50 ; i++ ){
        fputs(jf[i] ? " T" : " F", stdout);
     }
-    printf("\n");
-    printf("%d %f %f %d %d %f", jmag, lat, lon, iyyyy, mmdd, dhour);
-    printf("\n%f %f %f", hbeg, hend, hstp );
-    
+     */
     
     read_ig_rz_();
     readapf107_();
-    printf("\n\n * Before Fortran subroutine...\n");
     
-    iri_sub_(jf,    &jmag, &lat,  &lon, &iyyyy, &mmdd, &dhour,
-             &hbeg, &hend, &hstp, outf, oarr);
-    
-    printf("\n *After Fortran subroutine...\n\n");
-
-    
-    
-    printf("EDP Peak=%10.3f [m^-3] at Height=%5.1f [km]\n",  oarr[5-1], oarr[6-1]);
-    printf("Geo Lat= %10.3f, Geo Lon= %5.1f\n",  oarr[28-1], oarr[32-1] );
-
-
-
-    
-    if((out = fopen("edpData.dat", "w")) == NULL) {
-         printf("\n\n\nUnable to open the file <%s>.\n", "edpData.dat");
-         printf("Program Stopped... \n\n");
-         exit(0);
-       }
-
-    // electron density (frequency MHz), ion temp (K)
-    printf("\n   Alt (km),  Plasma Freq. (MHz),  ION Temp (K)\n");
-    for( i=0; i<nalt; i++) {
-        printf("%10.3f, %15.7f, %15.7f\n", alt[i], wp(outf[i][1-1])/(2.0*PI), outf[i][3-1]);
-        fprintf(out,"%10.3f, %15.7f, %15.7f\n",
-                alt[i], wp(outf[i][1-1])/(2.0*PI), outf[i][3-1]);
+    for(int k=0 ; k<2 ; k++) {
+        
+        strcpy(fname, "edpData");
+        if (k==0) {
+            strcpy(tmp, ".0");
+            iyyyy = 2021; mmdd = 303; dhour = 11.0;
+        } else {
+            strcpy(tmp, ".1");
+            iyyyy = 2021; mmdd = 304; dhour = 23.0;
+        }
+        strcpy(tmp2, tmp);
+        strcat(fname, tmp2);
+        if((out = fopen(fname, "w")) == NULL) {
+            printf("\n\n\nUnable to open the file <%s>.\n", fname);
+            printf("Program Stopped... \n\n");
+            exit(0);
+        }
+        
+        iri_sub_(jf, &jmag, &lat,  &lon, &iyyyy, &mmdd, &dhour, &hbeg, &hend, &hstp, outf, oarr);
+        
+        printf("EDP Peak=%10.3f [m^-3] at Height=%5.1f [km]\n",  oarr[5-1], oarr[6-1]);
+        printf("Geo Lat= %10.3f, Geo Lon= %5.1f\n",  oarr[28-1], oarr[32-1] );
+        
+        // electron density (frequency MHz), ion temp (K)
+        printf("\n   Alt (km),  Plasma Freq. (MHz),  ION Temp (K)\n");
+        for( i=0; i<nalt; i++) {
+            printf("%10.3f, %15.7f, %15.7f\n", alt[i], wp(outf[i][1-1]), outf[i][3-1]);
+            fprintf(out,"%10.3f, %15.7f, %15.7f\n",alt[i], wp(outf[i][1-1])/(2.0*PI), outf[i][3-1]);
+            
+        }
+        fclose(out);
+        
     }
-    
     /*
     for( i=0; i<nalt; i++) {
         for( j=0 ; j<20 ; j++ ) {
@@ -129,11 +132,14 @@ int main(void) {
     }
      */
 
-    fclose(out);
-    system("gnuplot -p grafs.gp");
+    system("gnuplot -p grafs0.gp");
+    system("gnuplot -p grafs1.gp");
     
     return 0;
 }
+
+
+
 
 // Plasma angular Frequency function, takes an Electron number density value (M^3)
 float wp(float ne) {
@@ -141,6 +147,6 @@ float wp(float ne) {
     float e0 = 8.854187817e-12;
     float me = 9.10938188e-31;
     
-    // return plasma frequency in MHz
-    return( sqrt((ne * e*e) / (e0 * me)) * 1.0e-6);
+    // convert to freq. and return in MHz
+    return( sqrt((ne * e*e) / (e0 * me)) * 1.0e-6 /(2.0*PI) );
 }
