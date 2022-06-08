@@ -1,0 +1,29 @@
+How to compile and run the IRI EDP Modeling Routine
+----------------------------------------------------
+
+At the command line type:
+> cd iri
+> make
+
+This will create the iri2016 shared library, iri.so. 
+
+Next type
+> make test
+> ./test.exe
+
+This will compile and link the C code to the iri.so file.
+
+ 
+NOTE: May need to properly set the DYLD_LIBRARY_PATH env variable. Use an absolute path!
+    > export DYLD_LIBRARY_PATH=/Users/gfenton/Downloads/jobs/ERT-Jobs/evaluation/pb1/iri
+
+
+This will create gnuplot plots that will be displayed in your window system.  This is
+assuming you have the gnuplot package installed.
+
+You can edit the *.gp files to create raster images from the gnuplot command.
+Uncomment the header lines in the *.gp files to achieve raster images.
+for example:
+  set terminal png size 2048,864 enhanced font "Helvetica,20"
+  set output 'grafs0.png'
+

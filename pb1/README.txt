@@ -1,4 +1,5 @@
-
+How to compile and Some Developmental Notes
+----------------------------------------------------
 
 At the command line type:
 > cd iri

@@ -1,6 +1,6 @@
 #
 #set terminal png size 2048,864 enhanced font "Helvetica,20"
-#set output 'plots.png'
+#set output 'grafs1.png'
 #
 set style line 1 \
     linecolor rgb '#0060ad' \
