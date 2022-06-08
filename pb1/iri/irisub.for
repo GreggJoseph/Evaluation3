@@ -456,15 +456,14 @@ c     &   /BLO11/B2TOP,TC3,itopn,alg10,hcor1,tcor2
         save
                 
         mess=jf(34)
-        print *, "----------------------------------------"
-        print *, "In IRI_SUB(), passed parameters:"
-        print *, JF
-        print *, JMAG,ALATI,ALONG,IYYYY,MMDD,DHOUR
-        print *, HEIBEG,HEIEND,HEISTP
-        print *, "----------------------------------------"
+c        print *, "----------------------------------------"
+c        print *, "In IRI_SUB(), passed parameters:"
+c        print *, JF
+c        print *, JMAG,ALATI,ALONG,IYYYY,MMDD,DHOUR
+c        print *, HEIBEG,HEIEND,HEISTP
+c        print *, "----------------------------------------"
 c        jf = .true.
-c        print *, jf
-c set switches for NRLMSIS00  
+c set switches for NRLMSIS00
         ISW=0
         do 6492 KI=1,25
 6492    SWMI(KI)=1.
